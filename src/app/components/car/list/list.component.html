@@ -1,0 +1,74 @@
+<!-- Top navigation -->
+<nav class="navbar navbar-dark fixed-top bg-dark flex-md-nowrap p-0 shadow">
+    <a class="navbar-brand col-sm-3 col-md-2 mr-0">
+        Welcome
+       </a>
+</nav>
+
+<!-- Sidebar navigation -->
+<div class="container-fluid">
+    <div class="row">
+
+        <nav class="col-md-2 d-md-block bg-light sidebar">
+            <div class="sidebar-sticky">
+                <ul class="nav flex-column">
+                    <li  class="nav-item" (click)="authService.redirectToDashboard()">
+                        <a class="nav-link ">
+                            <i class="fas fa-user"></i>User Profile
+                        </a>
+                    </li>
+                    <!-- Calling SignOut() Api from AuthService -->
+                    <li class="nav-item">
+                        <a class="nav-link" (click)="addMyList()">
+                            <i class="fas fa-sign-out-alt"></i>Add
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" (click)="openListing()">
+                            <i class="fas fa-sign-out-alt"></i>List
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" (click)="authService.SignOut()">
+                            <i class="fas fa-sign-out-alt"></i>Log out
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+
+        <!-- Main content -->
+        <main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-4">
+
+            <div class="container">
+                <h2>List Of Cars</h2>
+               
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Make</th>
+                            <th>Max Speed</th>
+                            <th>Engine Size</th>
+                            <th>Created Date</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let x of ListofCars">
+                            <td>{{x.payload.val().Make}}</td>
+                            <td>{{x.payload.val().Max_speed}}</td>
+                            <td>{{x.payload.val().Engine_size}}</td>   
+                            <td>{{x.payload.val().Created_date}}</td>   
+                            <td>
+                                <button class="btn btn-link" (click)="updateMyData(x.key, x.payload.val())">Edit</button>
+                                <button class="btn btn-link" (click)="DeleteMyVal(x.key)">Delete</button>
+                            </td>   
+                        </tr>
+                        
+                    </tbody>
+                </table>
+            </div>
+        </main>
+
+    </div>   
+</div>    
