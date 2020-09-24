@@ -3,11 +3,11 @@ import { User } from "../services/user";
 import { auth } from 'firebase/app';
 import { AngularFireAuth } from "@angular/fire/auth";
 import { AngularFireDatabase } from '@angular/fire/database';
-import {NgxUiLoaderService} from 'ngx-ui-loader';
+import { NgxUiLoaderService } from 'ngx-ui-loader';
 
 import { AngularFirestore, AngularFirestoreDocument } from '@angular/fire/firestore';
 import { Router } from "@angular/router";
-import {ToastrService} from 'ngx-toastr';
+import { ToastrService } from 'ngx-toastr';
 
 @Injectable({
   providedIn: 'root'
@@ -46,25 +46,32 @@ export class AuthService {
 
   // Sign in with email/password
   SignIn(email, password) {
-    return this.afAuth.signInWithEmailAndPassword(email, password)
+    return auth().signInWithEmailAndPassword(email, password)
       .then((result) => {
         this.ngZone.run(() => {
           this.router.navigate(['dashboard']);
         });
         this.SetUserData(result.user);
+        this.router.navigate(['dashboard']);
+        this.router.navigate(['dashboard']);
+        this.router.navigate(['dashboard']);
+        this.router.navigate(['dashboard']);
+        this.router.navigate(['dashboard']);
       }).catch((error) => {
+        console.log(error)
         window.alert(error.message)
       })
   }
 
   // Sign up with email/password
   SignUp(email, password) {
-    return this.afAuth.createUserWithEmailAndPassword(email, password)
+    return auth().createUserWithEmailAndPassword(email, password)
       .then((result) => {
         /* Call the SendVerificaitonMail() function when new user sign
         up and returns promise */
         this.SendVerificationMail();
         this.SetUserData(result.user);
+        this.router.navigate(['dashboard']);
       }).catch((error) => {
         window.alert(error.message)
       })
@@ -72,21 +79,27 @@ export class AuthService {
 
   // Send email verfificaiton when new user sign up
   SendVerificationMail() {
-    // return this.afAuth.auth.currentUser.sendEmailVerification()
-    // .then(() => {
-    //   this.router.navigate(['verify-email-address']);
-    // })
+    return auth().currentUser.sendEmailVerification()
+      .then(() => {
+        this.router.navigate(['verify-email-address']);
+      })
   }
 
   // Reset Forggot password
   ForgotPassword(passwordResetEmail) {
-    return this.afAuth.sendPasswordResetEmail(passwordResetEmail)
+    return auth().sendPasswordResetEmail(passwordResetEmail)
       .then(() => {
         window.alert('Password reset email sent, check your inbox.');
+        this.toastr.success('Password reset email sent, check your inbox. !!!', 'Success')
+        this.router.navigate(['sign-in']);
+        this.router.navigate(['sign-in']);
+        this.router.navigate(['sign-in']);
+        this.router.navigate(['sign-in']);
+        this.router.navigate(['sign-in']);
       }).catch((error) => {
         window.alert(error)
-      })
-  }
+      })                    
+  }        
 
   // Returns true when user is looged in and email is verified
   get isLoggedIn(): boolean {
@@ -101,12 +114,20 @@ export class AuthService {
 
   // Auth logic to run auth providers
   AuthLogin(provider) {
-    return this.afAuth.signInWithPopup(provider)
+    return auth().signInWithPopup(provider)
       .then((result) => {
         this.ngZone.run(() => {
           this.router.navigate(['dashboard']);
         })
         this.SetUserData(result.user);
+       // debugger
+       this.router.navigate(['dashboard']);
+       this.router.navigate(['dashboard']);
+       this.router.navigate(['dashboard']);
+       this.router.navigate(['dashboard']);
+       this.router.navigate(['dashboard']);
+       this.router.navigate(['dashboard']);
+       
       }).catch((error) => {
         window.alert(error)
       })
@@ -131,9 +152,14 @@ export class AuthService {
 
   // Sign out
   SignOut() {
-    return this.afAuth.signOut().then(() => {
+    return auth().signOut().then(() => {
       localStorage.removeItem('user');
       this.toastr.success('Successfully SignOut !!!', 'Success')
+      this.router.navigate(['sign-in']);
+      this.router.navigate(['sign-in']);
+      this.router.navigate(['sign-in']);
+      this.router.navigate(['sign-in']);
+      this.router.navigate(['sign-in']);
       this.router.navigate(['sign-in']);
     })
   }
@@ -170,7 +196,7 @@ export class AuthService {
     var yyyy = today.getFullYear();
     var todays = dd + '/' + mm + '/' + yyyy;
 
-    let ref = this.fruitObject.update(key,{
+    let ref = this.fruitObject.update(key, {
       Make: make,
       Max_speed: speed,
       Engine_size: size,
@@ -201,10 +227,10 @@ export class AuthService {
     //  this.fruitObject.child('/BFunctions/'+key+'/').remove();
   }
 
-  redirectToDashboard(){
+  redirectToDashboard() {
     this.router.navigate(['dashboard']);
   }
-  addMyList(){
+  addMyList() {
     this.router.navigate(['dashboard/car/add']);
   }
 
